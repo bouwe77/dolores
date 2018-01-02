@@ -1,0 +1,104 @@
+﻿/* This settings file is used by the integration tests in this project when testing the TestApp */
+{
+   "dolores": {
+      "errorDetailsInResponses": "All",
+      "routes": [
+         {
+            "identifier": "Home",
+            "uriTemplate": "",
+            "get": {
+               "type": "TestApp.TestHandler, TestApp",
+               "method": "Home"
+            }
+         },
+         {
+            "identifier": "ClassDoesNotExist",
+            "uriTemplate": "/classdoesnotexist",
+            "get": {
+               "type": "TestApp.ThisClassDoesNotExist, TestApp",
+               "method": "Home"
+            }
+         },
+         {
+            "identifier": "MethodNameDoesNotExistOnClass",
+            "uriTemplate": "/methodnamedoesnotexistonclass",
+            "get": {
+               "type": "TestApp.TestHandler, TestApp",
+               "method": "UnknownMethod"
+            }
+         },
+         {
+            "identifier": "ThrowsException",
+            "uriTemplate": "/throwsexception",
+            "get": {
+               "type": "TestApp.TestHandler, TestApp",
+               "method": "ThrowsException"
+            }
+         },
+         {
+            "identifier": "ThrowsNotImplementedException",
+            "uriTemplate": "/throwsnotimplementedexception",
+            "get": {
+               "type": "TestApp.TestHandler, TestApp",
+               "method": "ThrowsNotImplementedException"
+            }
+         },
+         {
+            "identifier": "GET only",
+            "uriTemplate": "/getonly",
+            "get": {
+               "type": "TestApp.TestHandler, TestApp",
+               "method": "Dummy"
+            }
+         },
+         {
+            "identifier": "POST only",
+            "uriTemplate": "/postonly",
+            "post": {
+               "type": "TestApp.TestHandler, TestApp",
+               "method": "Dummy"
+            }
+         },
+         {
+            "identifier": "PUT only",
+            "uriTemplate": "/putonly",
+            "put": {
+               "type": "TestApp.TestHandler, TestApp",
+               "method": "Dummy"
+            }
+         },
+         {
+            "identifier": "DELETE only",
+            "uriTemplate": "/deleteonly",
+            "delete": {
+               "type": "TestApp.TestHandler, TestApp",
+               "method": "Dummy"
+            }
+         },
+         {
+            "identifier": "PATCH only",
+            "uriTemplate": "/patchonly",
+            "patch": {
+               "type": "TestApp.TestHandler, TestApp",
+               "method": "Dummy"
+            }
+         },
+         {
+            "identifier": "HEAD only",
+            "uriTemplate": "/headonly",
+            "head": {
+               "type": "TestApp.TestHandler, TestApp",
+               "method": "Dummy"
+            }
+         },
+         {
+            "identifier": "OPTIONS only",
+            "uriTemplate": "/optionsonly",
+            "options": {
+               "type": "TestApp.TestHandler, TestApp",
+               "method": "Dummy"
+            }
+         }
+      ]
+   }
+}
