@@ -1,16 +1,24 @@
 ﻿using System;
+using System.Threading;
 using Dolores.Exceptions;
 using Dolores.Http;
+using Microsoft.Extensions.Logging;
 
 namespace Dolores.Requests
 {
    internal class RequestValidator
    {
+      private ILogger<RequestValidator> _logger;
+
+      public RequestValidator(ILoggerFactory loggerFactory)
+      {
+         _logger = loggerFactory.CreateLogger<RequestValidator>();
+      }
+
       public void Validate(Request request)
       {
          // Parse the HTTP method.
-         HttpMethod httpMethod;
-         bool parseSuccessful = Enum.TryParse(request.MethodAsString, true, out httpMethod);
+         bool parseSuccessful = Enum.TryParse(request.MethodAsString, true, out HttpMethod httpMethod);
          if (!parseSuccessful)
          {
             throw new HttpMethodNotAllowedException($"The HTTP method '{request.MethodAsString.ToUpper()}' is not allowed");
@@ -18,7 +26,7 @@ namespace Dolores.Requests
 
          request.Method = httpMethod;
 
-         //TODO Logger.Instance.Debug(request.ToString());
+         _logger.LogDebug(request.ToString());
       }
    }
 }

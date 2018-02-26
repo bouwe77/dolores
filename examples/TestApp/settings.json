@@ -1,0 +1,16 @@
+﻿/* This settings file is used when you are start to debug the TestApp */
+{
+  "dolores": {
+    "errorDetailsInResponses": "All",
+    "routes": [
+      {
+        "identifier": "Home",
+        "uriTemplate": "",
+        "get": {
+          "type": "TestApp.TestHandler, TestApp",
+          "method": "Home"
+        }
+      }
+    ]
+  }
+}

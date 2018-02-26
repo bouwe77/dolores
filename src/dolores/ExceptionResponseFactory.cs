@@ -9,8 +9,7 @@ namespace Dolores
    internal class ExceptionResponseFactory
    {
       private readonly Exception _exception;
-      private const string ContentTypeJson = "application/json";
-      private ErrorResponseDetails _errorResponseDetails;
+      private readonly ErrorResponseDetails _errorResponseDetails;
 
       public ExceptionResponseFactory(Exception exception, ErrorResponseDetails errorResponseDetails)
       {
@@ -28,8 +27,7 @@ namespace Dolores
          bool showClientErrorDetails = (_errorResponseDetails & ErrorResponseDetails.Client) != 0;
 
          // HttpExceptions can be thrown by both Dolores and the code using Dolores and will result in the corresponding HTTP status code.
-         var httpResponseException = _exception as HttpException;
-         if (httpResponseException != null)
+         if (_exception is HttpException httpResponseException)
          {
             statusCode = httpResponseException.StatusCode;
             int statusCodeValue = (int)statusCode;
@@ -51,8 +49,7 @@ namespace Dolores
          else
          {
             // NotImplementedExceptions will result in a HTTP NotImplemented status code.
-            var notImplementedException = _exception as NotImplementedException;
-            if (notImplementedException != null)
+            if (_exception is NotImplementedException notImplementedException)
             {
                var httpNotImplementedException = new HttpNotImplementedException("Not Implemented", notImplementedException);
                statusCode = httpNotImplementedException.StatusCode;

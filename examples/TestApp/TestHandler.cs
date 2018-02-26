@@ -12,9 +12,10 @@ namespace TestApp
    {
       public Response Home()
       {
-         var response = new Response(HttpStatusCode.Ok);
-         response.MessageBody = new MemoryStream(Encoding.UTF8.GetBytes("Hello World"));
-         response.SetContentTypeHeader("text/plain");
+         var response = new Response(HttpStatusCode.Ok, "text/plain")
+         {
+            MessageBody = new MemoryStream(Encoding.UTF8.GetBytes("Hello World"))
+         };
 
          return response;
       }

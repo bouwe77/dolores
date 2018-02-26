@@ -1,18 +1,17 @@
 ﻿using Dolores.Exceptions;
 using Dolores.Http;
 using Dolores.Requests;
-using Dolores.Routing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace UnitTests.Routing
+namespace Dolores.Routing
 {
    [TestClass]
    public class HttpMethodImplementationManagerTests
    {
       private Mock<IRouteFinder> _routeFinderMock;
       private Mock<IHttpMethodImplementationFinder> _httpMethodImplementationFinderMock;
-      private Request _dummyRequest = new Request("whatever", "whatever", "whatever");
+      private readonly Request _dummyRequest = new Request("whatever", "whatever", "whatever");
       private HttpMethodImplementationManager _manager;
 
       [TestInitialize]
@@ -52,10 +51,9 @@ namespace UnitTests.Routing
       [ExpectedException(typeof(HttpNotFoundException))]
       public void GetImplementation_ThrowsNotFoundException_WhenUriTemplateDoesNotExist()
       {
-         Route noRoute = null;
          _routeFinderMock
             .Setup(x => x.FindRoute(It.IsAny<string>()))
-            .Returns(noRoute);
+            .Returns((Route) null);
 
          _manager.GetImplementation(_dummyRequest);
       }
@@ -69,10 +67,9 @@ namespace UnitTests.Routing
             .Setup(x => x.FindRoute(It.IsAny<string>()))
             .Returns(dummyRoute);
 
-         HttpMethodImplementation noImplementation = null;
          _httpMethodImplementationFinderMock
             .Setup(x => x.FindImplementation(It.IsAny<Request>(), It.IsAny<Route>()))
-            .Returns(noImplementation);
+            .Returns((HttpMethodImplementation) null);
 
          _manager.GetImplementation(_dummyRequest);
       }

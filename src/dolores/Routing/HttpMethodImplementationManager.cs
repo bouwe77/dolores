@@ -6,8 +6,8 @@ namespace Dolores.Routing
 {
    internal class HttpMethodImplementationManager
    {
-      private IRouteFinder _routeFinder;
-      private IHttpMethodImplementationFinder _implementationFinder;
+      private readonly IRouteFinder _routeFinder;
+      private readonly IHttpMethodImplementationFinder _implementationFinder;
 
       public HttpMethodImplementationManager(IRouteFinder routeFinder)
          : this(routeFinder, new HttpMethodImplementationFinder())
@@ -37,8 +37,6 @@ namespace Dolores.Routing
          }
 
          request.UriParameters = UriParameterParser.Parse(route.UriTemplate, request.Uri);
-
-         //TODO Logger.Instance.Debug($"Found route for URI '{request.RawUrl}': {foundRoute}");
 
          return methodImplementation;
       }

@@ -1,4 +1,5 @@
 ﻿using Dolores.Requests;
+using Microsoft.Extensions.Logging;
 
 namespace Dolores
 {
@@ -10,7 +11,11 @@ namespace Dolores
       /// <summary>
       /// Gets or sets the request.
       /// </summary>
-      /// <value>The request.</value>
       public Request Request { get; set; }
+
+      /// <summary>
+      /// Gets or sets the logger.
+      /// </summary>
+      public ILogger Logger { get; set; }
    }
 }

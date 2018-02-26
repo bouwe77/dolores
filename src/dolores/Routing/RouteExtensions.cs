@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
 namespace Dolores.Routing
 {
@@ -13,25 +12,18 @@ namespace Dolores.Routing
          {
             uri = route.UriTemplate;
 
-            try
-            {
-               var uriTemplateSegments = route.UriTemplate.Split('/');
-               var uriTemplateParams = uriTemplateSegments.Where(x => x.StartsWith("{") && x.EndsWith("}")).ToList();
+            var uriTemplateSegments = route.UriTemplate.Split('/');
+            var uriTemplateParams = uriTemplateSegments.Where(x => x.StartsWith("{") && x.EndsWith("}")).ToList();
 
-               bool uriParamsValid = uriParams.Length == uriTemplateParams.Count;
-               if (uriParamsValid && uriTemplateParams.Any())
-               {
-                  int index = 0;
-                  foreach (var uriTemplateParam in uriTemplateParams)
-                  {
-                     uri = uri.Replace(uriTemplateParam, uriParams[index]);
-                     index++;
-                  }
-               }
-            }
-            catch (Exception exception)
+            bool uriParamsValid = uriParams.Length == uriTemplateParams.Count;
+            if (uriParamsValid && uriTemplateParams.Any())
             {
-               //TODO Logger.Instance.Warn($"Getting URI for route {route} failed: {exception}");
+               int index = 0;
+               foreach (var uriTemplateParam in uriTemplateParams)
+               {
+                  uri = uri.Replace(uriTemplateParam, uriParams[index]);
+                  index++;
+               }
             }
          }
 

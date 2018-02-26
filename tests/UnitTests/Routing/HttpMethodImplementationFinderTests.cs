@@ -1,10 +1,9 @@
-﻿using Dolores.Http;
+﻿using System.Collections.Generic;
+using Dolores.Http;
 using Dolores.Requests;
-using Dolores.Routing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
 
-namespace UnitTests.Routing
+namespace Dolores.Routing
 {
    [TestClass]
    public class HttpMethodImplementationFinderTests
@@ -87,8 +86,7 @@ namespace UnitTests.Routing
 
       private Request CreateRequest(HttpMethod httpMethod)
       {
-         var request = new Request("whatever", "whatever", "whatever");
-         request.Method = httpMethod;
+         var request = new Request("whatever", "whatever", "whatever") { Method = httpMethod };
          return request;
       }
    }

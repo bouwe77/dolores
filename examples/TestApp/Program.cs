@@ -6,7 +6,6 @@ namespace TestApp
    {
       public static void Main(string[] args)
       {
-
          var host = new WebHostBuilder()
              .UseKestrel()
              .UseStartup<Startup>()

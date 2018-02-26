@@ -1,5 +1,4 @@
 ﻿using System;
-using Dolores.Configuration;
 
 namespace Dolores.Exceptions
 {
@@ -7,7 +6,6 @@ namespace Dolores.Exceptions
    /// Exceptions that occur because of configuration errors.
    /// </summary>
    /// <seealso cref="DoloresException" />
-   /// <seealso cref="DoloresConfig"/>
    public class DoloresConfigurationException : DoloresException
    {
       internal DoloresConfigurationException(string message)

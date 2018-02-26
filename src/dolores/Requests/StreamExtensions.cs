@@ -19,8 +19,7 @@ namespace Dolores.Requests
       /// <exception cref="HttpBadRequestException">Thrown when deserializing failed.</exception>
       public static T DeserializeJson<T>(this Stream stream)
       {
-         T value;
-         bool success = stream.TryDeserializeJson(out value);
+         bool success = stream.TryDeserializeJson(out T value);
 
          if (!success)
          {
@@ -54,7 +53,6 @@ namespace Dolores.Requests
             }
             catch (Exception)
             {
-               //TODO Logger.Instance.Warn($"Deserializing the JSON stream failed: {exception}");
             }
          }
 

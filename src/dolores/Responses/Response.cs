@@ -42,6 +42,21 @@ namespace Dolores.Responses
       }
 
       /// <summary>
+      /// Initializes a new instance of the <see cref="Response"/> class.
+      /// </summary>
+      /// <param name="statusCode">The HTTP status code.</param>
+      /// <param name="contentType"></param>
+      public Response(HttpStatusCode statusCode, string contentType)
+      {
+         StatusCode = statusCode;
+
+         Headers = new Dictionary<string, string>
+         {
+            { HttpResponseHeaderFields.ContentType, contentType }
+         };
+      }
+
+      /// <summary>
       /// Sets the header.
       /// </summary>
       /// <param name="name">The header name.</param>
@@ -57,6 +72,20 @@ namespace Dolores.Responses
          else
          {
             Headers.Add(name, value);
+         }
+      }
+
+      /// <summary>
+      /// Removes the header.
+      /// </summary>
+      /// <param name="name">The header name.</param>
+      public void RemoveHeader(string name)
+      {
+         Enforce.StringNotNullOrEmpty(name, "Header name");
+
+         if (Headers.ContainsKey(name))
+         {
+            Headers.Remove(name);
          }
       }
 

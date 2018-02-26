@@ -16,8 +16,7 @@ namespace Dolores.Helpers
       /// <param name="onMissing">Optional default value of type TValue. If not specified, the C# default value will be returned.</param>
       public static TValue GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue onMissing = default(TValue))
       {
-         TValue value;
-         return dictionary.TryGetValue(key, out value) ? value : onMissing;
+         return dictionary.TryGetValue(key, out var value) ? value : onMissing;
       }
 
       /// <summary>

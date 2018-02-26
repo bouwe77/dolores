@@ -16,12 +16,7 @@
     <ProjectReference Include="..\..\src\dolores\dolores.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Bouwe.Logging">
-      <HintPath>..\..\..\-- release\Bouwe.Logging\Bouwe.Logging.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Update="doloresSettings.json">
+    <Content Update="settings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

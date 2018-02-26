@@ -7,7 +7,7 @@ namespace Dolores.Exceptions
    /// Base class for exceptions that result in HTTP error responses being returned to the client.
    /// </summary>
    /// <seealso cref="DoloresException" />
-   public abstract class HttpException : DoloresException
+   public class HttpException : DoloresException
    {
       /// <summary>
       /// Gets or sets the HTTP status code.
@@ -20,7 +20,7 @@ namespace Dolores.Exceptions
       /// </summary>
       /// <param name="exceptionMessage">The exception message.</param>
       /// <param name="statusCode">The HTTP status code.</param>
-      protected HttpException(string exceptionMessage, HttpStatusCode statusCode)
+      public HttpException(string exceptionMessage, HttpStatusCode statusCode)
          : base(exceptionMessage)
       {
          StatusCode = statusCode;
@@ -32,7 +32,7 @@ namespace Dolores.Exceptions
       /// <param name="exceptionMessage">The exception message.</param>
       /// <param name="statusCode">The HTTP status code.</param>
       /// <param name="innerException">The inner exception.</param>
-      protected HttpException(string exceptionMessage, HttpStatusCode statusCode, Exception innerException)
+      public HttpException(string exceptionMessage, HttpStatusCode statusCode, Exception innerException)
          : base(exceptionMessage, innerException)
       {
          StatusCode = statusCode;

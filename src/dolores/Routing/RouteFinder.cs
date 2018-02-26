@@ -8,7 +8,7 @@ namespace Dolores.Routing
    {
       private readonly Dictionary<string, Route> _routes;
 
-      public RouteFinder(List<MyTEMPRoute> routesFromConfig)
+      public RouteFinder(List<Configuration.Route> routesFromConfig)
       {
          Enforce.ArgumentNotNull(routesFromConfig, "routesFromConfig");
          _routes = RouteConverter.Convert(routesFromConfig);
@@ -28,13 +28,12 @@ namespace Dolores.Routing
 
       public Route FindRoute(string requestUri)
       {
-         bool found = false;
          Route foundRoute = null;
 
          // Try to find a route by matching the request URI to the URI template regex.
          foreach (var route in _routes.Values)
          {
-            found = route.UriTemplateRegex.IsMatch(requestUri);
+            var found = route.UriTemplateRegex.IsMatch(requestUri);
             if (found)
             {
                foundRoute = route;

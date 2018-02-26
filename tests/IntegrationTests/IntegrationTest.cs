@@ -17,13 +17,12 @@ namespace IntegrationTests
    [TestClass]
    public class IntegrationTest
    {
-      private readonly TestServer _server;
       private readonly HttpClient _client;
 
       public IntegrationTest()
       {
-         _server = new TestServer(new WebHostBuilder().UseStartup<Startup>());
-         _client = _server.CreateClient();
+         var server = new TestServer(new WebHostBuilder().UseStartup<Startup>());
+         _client = server.CreateClient();
       }
 
       /// <summary>

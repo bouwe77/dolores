@@ -1,9 +1,8 @@
-﻿using Dolores.Configuration;
-using Dolores.Routing;
+﻿using System.Collections.Generic;
+using Dolores.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
 
-namespace UnitTests.Routing
+namespace Dolores.Routing
 {
    [TestClass]
    public class RouteFinderTests
@@ -83,7 +82,7 @@ namespace UnitTests.Routing
       [TestMethod]
       public void FindRoute_ReturnsNothing_WhenNoRoutesAreConfigured()
       {
-         var routeFinder = new RouteFinder(new List<MyTEMPRoute>());
+         var routeFinder = new RouteFinder(new List<Configuration.Route>());
 
          string requestUri = "hello";
          var route = routeFinder.FindRoute(requestUri);
@@ -116,19 +115,19 @@ namespace UnitTests.Routing
       private RouteFinder GetRouteFinder()
       {
          // The Httproute is not used by the RouteFinder class, so although the properties are required, the values do not matter.
-         MyTEMPHttpMethodImplementation dummyImplementation = new MyTEMPHttpMethodImplementation
+         Configuration.HttpMethodImplementation dummyImplementation = new Configuration.HttpMethodImplementation
          {
             Type = "lorem, ipsum",
             Method = "lorem ipsum"
          };
 
          // Define the routes (UriTemplates) that are necessary for this test.
-         var routes = new List<MyTEMPRoute>
+         var routes = new List<Configuration.Route>
          {
-            new MyTEMPRoute { UriTemplate = "", Get = dummyImplementation, Identifier = "1" },
-            new MyTEMPRoute { UriTemplate = "word", Get = dummyImplementation, Identifier = "2" },
-            new MyTEMPRoute { UriTemplate = "word/{id}", Get = dummyImplementation, Identifier = "3" },
-            new MyTEMPRoute { UriTemplate = "word/{id}/morestuff", Get = dummyImplementation, Identifier = "4" },
+            new Configuration.Route { UriTemplate = "", Get = dummyImplementation, Identifier = "1" },
+            new Configuration.Route { UriTemplate = "word", Get = dummyImplementation, Identifier = "2" },
+            new Configuration.Route { UriTemplate = "word/{id}", Get = dummyImplementation, Identifier = "3" },
+            new Configuration.Route { UriTemplate = "word/{id}/morestuff", Get = dummyImplementation, Identifier = "4" },
          };
 
          return new RouteFinder(routes);

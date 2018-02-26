@@ -5,19 +5,23 @@ using Dolores.Requests;
 using Dolores.Responses;
 using Dolores.Routing;
 using Dolores.Http;
-using Dolores.Exceptions;
+using Microsoft.Extensions.Logging;
 
 namespace Dolores
 {
    internal class DoloresHttpHandlerImplementation
    {
-      private MyTEMPSettings _settings;
-      private HttpMethodImplementationManager _implementationManager;
+      private readonly Settings _settings;
+      private readonly ILoggerFactory _loggerFactory;
+      private readonly HttpMethodImplementationManager _implementationManager;
+      private readonly ILogger logger;
 
-      public DoloresHttpHandlerImplementation(MyTEMPSettings settings)
+      public DoloresHttpHandlerImplementation(Settings settings, ILoggerFactory loggerFactory)
       {
          _settings = settings;
+         _loggerFactory = loggerFactory;
          _implementationManager = new HttpMethodImplementationManager(new RouteFinder(settings.Routes));
+         logger = _loggerFactory.CreateLogger<DoloresHttpHandlerImplementation>();
       }
 
       public async Task HandleAsync(IHttpContextWrapper wrappedHttpContext)
@@ -28,7 +32,8 @@ namespace Dolores
          try
          {
             request = RequestFactory.Create(wrappedHttpContext);
-            //TODO Logger.Instance.Debug(request.ToString());
+
+            logger.LogDebug(request.ToString());
 
             // Determine the response by handling the request and (if necessary) handle the exception.
             try
@@ -51,21 +56,21 @@ namespace Dolores
             //}
             //catch (Exception exception)
             //{
-            //   Logger.Instance.Warn($"Executing the OnBeforeSendResponse action failed: {exception}");
+            //   logger.LogWarn($"Executing the OnBeforeSendResponse action failed: {exception}");
             //   throw;
             //}
 
             // Write the response to the HTTP context.
-            //try
-            //{
+            try
+            {
                var httpContextResponseWriter = new HttpContextResponseWriter(wrappedHttpContext);
                httpContextResponseWriter.WriteResponse(response);
-            //}
-            //catch (Exception exception)
-            //{
-               //TODO Logger.Instance.Warn($"Writing the response failed: {exception}");
-              // throw;
-            //}
+            }
+            catch (Exception exception)
+            {
+               logger.LogWarning($"Writing the response failed: {exception}");
+               throw;
+            }
          }
          finally
          {
@@ -82,15 +87,14 @@ namespace Dolores
             string locationHeaderValue = response.Headers[HttpResponseHeaderFields.Location];
             if (!locationHeaderValue.StartsWith("http"))
             {
-               response.Headers.Remove(HttpResponseHeaderFields.Location);
-               response.SetLocationHeader($"{request.ServerUrl}{locationHeaderValue}");
+               response.SetHeader(HttpResponseHeaderFields.Location, $"{request.ServerUrl}{locationHeaderValue}");
             }
          }
       }
 
       private Response HandleException(Exception exception)
       {
-         //TODO Logger.Instance.Warn($"Handling the request failed: {exception}");
+         logger.LogWarning($"Handling the request failed: {exception}");
 
          var exceptionResponseFactory = new ExceptionResponseFactory(exception, _settings.ErrorDetailsInResponsesEnum);
          var response = exceptionResponseFactory.CreateResponse();
@@ -100,14 +104,14 @@ namespace Dolores
       private async Task<Response> HandleRequest(Request request)
       {
          // Validate the Request.
-         var requestValidator = new RequestValidator();
+         var requestValidator = new RequestValidator(_loggerFactory);
          requestValidator.Validate(request);
 
          // Find the implementation for the request.
          var methodImplementation = _implementationManager.GetImplementation(request);
 
          // Handle the Request with the found implementation.
-         var requestHandler = new RequestHandler(request, methodImplementation);
+         var requestHandler = new RequestHandler(request, methodImplementation, _loggerFactory);
          var response = await requestHandler.HandleAsync();
 
          return response;

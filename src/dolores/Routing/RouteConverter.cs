@@ -4,11 +4,11 @@ using System.Collections.Generic;
 namespace Dolores.Routing
 {
    /// <summary>
-   /// Converts routes from config (<see cref="MyTEMPRoute"/>) to <see cref="Route"/>s which are used in Dolores to handle requests.
+   /// Converts routes from config (<see cref="Configuration.Route"/>) to <see cref="Route"/>s which are used in Dolores to handle requests.
    /// </summary>
    internal class RouteConverter
    {
-      public static Dictionary<string, Route> Convert(List<MyTEMPRoute> routesFromConfig)
+      public static Dictionary<string, Route> Convert(List<Configuration.Route> routesFromConfig)
       {
          var routeFactory = new RouteFactory();
 
@@ -24,7 +24,7 @@ namespace Dolores.Routing
          return convertedRoutes;
       }
 
-      private static void AddImplementation(MyTEMPRoute routeFromConfig, Route route)
+      private static void AddImplementation(Configuration.Route routeFromConfig, Route route)
       {
          if (routeFromConfig.Get != null)
          {

@@ -1,6 +1,4 @@
-﻿using Dolores.Helpers;
-using Microsoft.AspNetCore.Http.Headers;
-using Microsoft.AspNetCore.WebUtilities;
+﻿using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Primitives;
 using System.Collections.Generic;
 

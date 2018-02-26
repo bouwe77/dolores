@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Dolores.Exceptions;
 using Dolores.Responses;
 using Dolores.Routing;
+using Microsoft.Extensions.Logging;
 
 namespace Dolores.Requests
 {
@@ -13,19 +14,23 @@ namespace Dolores.Requests
    {
       private readonly Request _request;
       private readonly IHttpMethodImplementation _httpMethodImplementation;
+      private readonly ILoggerFactory _loggerFactory;
+      private ILogger<RequestHandler> _logger;
 
-      public RequestHandler(Request request, IHttpMethodImplementation httpMethodImplementation)
+      public RequestHandler(Request request, IHttpMethodImplementation httpMethodImplementation, ILoggerFactory loggerFactory)
       {
          _request = request;
          _httpMethodImplementation = httpMethodImplementation;
+         _loggerFactory = loggerFactory;
+         _logger = loggerFactory.CreateLogger<RequestHandler>();
       }
 
       public async Task<Response> HandleAsync()
       {
-         var doloresHandler = DoloresHandlerFactory.CreateDoloresHandler(_httpMethodImplementation, _request);
+         var doloresHandler = DoloresHandlerFactory.CreateDoloresHandler(_httpMethodImplementation, _request, _loggerFactory);
          var response = await GetResponseAsync(doloresHandler);
 
-         //TODO Logger.Instance.Debug(response.ToString());
+         _logger.LogDebug(response.ToString());
 
          return response;
       }
@@ -98,7 +103,7 @@ namespace Dolores.Requests
 
          if (method == null)
          {
-            throw new HttpNotImplementedException($"{configuredMethod} is not a public instance method on class '{_httpMethodImplementation.FullyQualifiedClassName}'");
+            throw new HttpNotImplementedException($"{configuredMethod} is not a public instance method on class '{_httpMethodImplementation.FullyQualifiedClassName}' and/or does not have matching arguments");
          }
 
          return method;

@@ -1,9 +1,7 @@
 ﻿using System;
-using Dolores.Configuration;
 using Dolores.Exceptions;
 using Dolores.Helpers;
 using Dolores.Http;
-using Dolores.Routing;
 using Newtonsoft.Json;
 
 namespace Dolores.Responses
@@ -68,36 +66,19 @@ namespace Dolores.Responses
          response.SetHeader(HttpResponseHeaderFields.ContentType, contentTypeHeaderValue);
       }
 
-      /// <summary>
-      /// Sets the location header by route identifier from the config.
-      /// </summary>
-      /// <param name="response">The response.</param>
-      /// <param name="routeIdentifier">The route identifier as defined in the route config.</param>
-      /// <param name="parameterValues">The parameter values.</param>
+      ///// <summary>
+      ///// Sets the location header by route identifier from the config.
+      ///// </summary>
+      ///// <param name="response">The response.</param>
+      ///// <param name="routeIdentifier">The route identifier as defined in the route config.</param>
+      ///// <param name="parameterValues">The parameter values.</param>
       //public static void SetLocationHeaderByRouteIdentifier(this Response response, string routeIdentifier, params string[] parameterValues)
       //{
       //   //TODO Deze kan ik nu niet wegmocken. Als dat wel nodig is dan kan deze methode niet meer een extension method blijven...
-      //   var route = Settings.Instance.GetRouteByIdentifier(routeIdentifier);
+      //   var route = ...GetRouteByIdentifier(routeIdentifier);
       //   var uri = route.GetUriWithParameterValues(parameterValues);
 
-      //   if (!string.IsNullOrWhiteSpace(uri))
-      //   {
-      //      response.SetLocationHeader(uri);
-      //   }
-      //   else
-      //   {
-      //      Logger.Instance.Warn($"Location header could not be set, because route identifier '{routeIdentifier}' does not exist");
-      //   }
+      //   response.SetLocationHeader(uri);
       //}
-
-      /// <summary>
-      /// Sets the location header on the response.
-      /// </summary>
-      /// <param name="response">The response.</param>
-      /// <param name="locationUri">The location URI.</param>
-      public static void SetLocationHeader(this Response response, string locationUri)
-      {
-         response.SetHeader(HttpResponseHeaderFields.Location, locationUri);
-      }
    }
 }
