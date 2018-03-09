@@ -65,20 +65,5 @@ namespace Dolores.Responses
       {
          response.SetHeader(HttpResponseHeaderFields.ContentType, contentTypeHeaderValue);
       }
-
-      ///// <summary>
-      ///// Sets the location header by route identifier from the config.
-      ///// </summary>
-      ///// <param name="response">The response.</param>
-      ///// <param name="routeIdentifier">The route identifier as defined in the route config.</param>
-      ///// <param name="parameterValues">The parameter values.</param>
-      //public static void SetLocationHeaderByRouteIdentifier(this Response response, string routeIdentifier, params string[] parameterValues)
-      //{
-      //   //TODO Deze kan ik nu niet wegmocken. Als dat wel nodig is dan kan deze methode niet meer een extension method blijven...
-      //   var route = ...GetRouteByIdentifier(routeIdentifier);
-      //   var uri = route.GetUriWithParameterValues(parameterValues);
-
-      //   response.SetLocationHeader(uri);
-      //}
    }
 }

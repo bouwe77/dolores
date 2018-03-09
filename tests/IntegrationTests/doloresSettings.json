@@ -1,0 +1,125 @@
+﻿/* This settings file is used by the integration tests in this project when testing the TestApp */
+{
+  "dolores": {
+    "errorDetailsInResponses": "All",
+    "routes": [
+      {
+        "identifier": "Home",
+        "uriTemplate": "",
+        "get": {
+          "type": "TestApp.TestHandler, TestApp",
+          "method": "Home"
+        },
+        "description": "Route to the home URI."
+      },
+      {
+        "identifier": "ClassDoesNotExist",
+        "uriTemplate": "/classdoesnotexist",
+        "get": {
+          "type": "TestApp.ThisClassDoesNotExist, TestApp",
+          "method": "Home"
+        },
+        "description": "Route for testing Dolores' behavior when a configured class does not exist."
+      },
+      {
+        "identifier": "MethodNameDoesNotExistOnClass",
+        "uriTemplate": "/methodnamedoesnotexistonclass",
+        "get": {
+          "type": "TestApp.TestHandler, TestApp",
+          "method": "UnknownMethod"
+        },
+        "description": "Route for testing Dolores' behavior when a configured method does not exist."
+      },
+      {
+        "identifier": "ThrowsException",
+        "uriTemplate": "/throwsexception",
+        "get": {
+          "type": "TestApp.TestHandler, TestApp",
+          "method": "ThrowsException"
+        },
+        "description": "Route for testing Dolores' behavior when the configured method throws an Exception."
+      },
+      {
+        "identifier": "ThrowsNotImplementedException",
+        "uriTemplate": "/throwsnotimplementedexception",
+        "get": {
+          "type": "TestApp.TestHandler, TestApp",
+          "method": "ThrowsNotImplementedException"
+        },
+        "description": "Route for testing Dolores' behavior when the configured method throws an NotImplementedException."
+      },
+      {
+        "identifier": "GET one item",
+        "uriTemplate": "/items/{id}",
+        "get": {
+          "type": "TestApp.TestHandler, TestApp",
+          "method": "Dummy"
+        },
+        "description": "Route for getting one item on its ID."
+      },
+      {
+        "identifier": "GET only",
+        "uriTemplate": "/getonly",
+        "get": {
+          "type": "TestApp.TestHandler, TestApp",
+          "method": "Dummy"
+        },
+        "description": "Route that only supports a GET."
+      },
+      {
+        "identifier": "POST only",
+        "uriTemplate": "/postonly",
+        "post": {
+          "type": "TestApp.TestHandler, TestApp",
+          "method": "Post"
+        },
+        "description": "Route that only supports a POST."
+      },
+      {
+        "identifier": "PUT only",
+        "uriTemplate": "/putonly",
+        "put": {
+          "type": "TestApp.TestHandler, TestApp",
+          "method": "Dummy"
+        },
+        "description": "Route that only supports a PUT."
+      },
+      {
+        "identifier": "DELETE only",
+        "uriTemplate": "/deleteonly",
+        "delete": {
+          "type": "TestApp.TestHandler, TestApp",
+          "method": "Dummy"
+        },
+        "description": "Route that only supports a DELETE."
+      },
+      {
+        "identifier": "PATCH only",
+        "uriTemplate": "/patchonly",
+        "patch": {
+          "type": "TestApp.TestHandler, TestApp",
+          "method": "Dummy"
+        },
+        "description": "Route that only supports a PATCH."
+      },
+      {
+        "identifier": "HEAD only",
+        "uriTemplate": "/headonly",
+        "head": {
+          "type": "TestApp.TestHandler, TestApp",
+          "method": "Dummy"
+        },
+        "description": "Route that only supports a HEAD."
+      },
+      {
+        "identifier": "OPTIONS only",
+        "uriTemplate": "/optionsonly",
+        "options": {
+          "type": "TestApp.TestHandler, TestApp",
+          "method": "Dummy"
+        },
+        "description": "Route that only supports a OPTIONS."
+      }
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+
+1) Doe een Release build
+
+2) Versienummer aanpassen in project properties >> Package
+
+3) Rechtermuisknop op project en kies "Pack"
+
+4) Vervang versienummer XXX.YYY.ZZZ in dit commando:
+      "c:\program files\nuget\nuget.exe" push Dolores.XXX.YYY.ZZZ.nupkg oy2fwqlis3dzqk2e3yeaakoqbb6p6icexd4c5slafumrve -Source https://api.nuget.org/v3/index.json
+
+5) Navigeer naar bin Release folder:
+      d:
+      cd "Mijn Projecten\-- Mijn ReUsables\dolores\src\dolores\bin\Release"
+
+6) Voer commando uit
+
+(TODO dit kan allemaal ook met MSBUILD.exe, dan hoef je geen handmatige Pack te doen...)

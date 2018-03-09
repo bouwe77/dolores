@@ -1,4 +1,5 @@
-﻿using Dolores.Configuration;
+﻿using System;
+using Dolores.Configuration;
 using System.Collections.Generic;
 
 namespace Dolores.Routing
@@ -12,7 +13,8 @@ namespace Dolores.Routing
       {
          var routeFactory = new RouteFactory();
 
-         var convertedRoutes = new Dictionary<string, Route>();
+         var ordinalIgnoreCaseComparer = StringComparer.OrdinalIgnoreCase;
+         var convertedRoutes = new Dictionary<string, Route>(ordinalIgnoreCaseComparer);
 
          foreach (var routeFromConfig in routesFromConfig)
          {

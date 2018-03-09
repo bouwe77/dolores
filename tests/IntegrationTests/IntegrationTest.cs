@@ -6,6 +6,9 @@ using TestApp;
 using System.Threading.Tasks;
 using System.Net;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http.Headers;
 
 //TODO Code checken voor nog meer testcases
 
@@ -92,8 +95,8 @@ namespace IntegrationTests
       [TestMethod]
       public async Task PostOnlyRouteReturnsOk_WhenRequestIsPost()
       {
-         await SendAndAssertPOSTRequest("/postonly", null, HttpStatusCode.OK);
-         await SendAndAssertPOSTRequest("/pOstOnLy", null, HttpStatusCode.OK);
+         await SendAndAssertPOSTRequest("/postonly", null, HttpStatusCode.Created, "/items/moio");
+         await SendAndAssertPOSTRequest("/pOstOnLy", null, HttpStatusCode.Created, "/items/moio");
       }
 
       /// <summary>
@@ -152,7 +155,7 @@ namespace IntegrationTests
       [TestMethod]
       public async Task GetOnlyRouteReturnsMethodNotAllowed_WhenRequestIsAnyOtherMethod()
       {
-         await SendAndAssertPOSTRequest("/getonly", null, HttpStatusCode.MethodNotAllowed);
+         await SendAndAssertPOSTRequest("/getonly", null, HttpStatusCode.MethodNotAllowed, null);
          await SendAndAssertPUTRequest("/getonly", null, HttpStatusCode.MethodNotAllowed);
          await SendAndAssertDELETERequest("/getonly", HttpStatusCode.MethodNotAllowed);
          await SendAndAssertPATCHRequest("/getonly", null, HttpStatusCode.MethodNotAllowed);
@@ -181,7 +184,7 @@ namespace IntegrationTests
       public async Task PutOnlyRouteReturnsMethodNotAllowed_WhenRequestIsAnyOtherMethod()
       {
          await SendAndAssertGETRequest("/putonly", HttpStatusCode.MethodNotAllowed);
-         await SendAndAssertPOSTRequest("/putonly", null, HttpStatusCode.MethodNotAllowed);
+         await SendAndAssertPOSTRequest("/putonly", null, HttpStatusCode.MethodNotAllowed, null);
          await SendAndAssertDELETERequest("/putonly", HttpStatusCode.MethodNotAllowed);
          await SendAndAssertPATCHRequest("/putonly", null, HttpStatusCode.MethodNotAllowed);
          await SendAndAssertHEADRequest("/putonly", HttpStatusCode.MethodNotAllowed);
@@ -195,7 +198,7 @@ namespace IntegrationTests
       public async Task DeleteOnlyRouteReturnsMethodNotAllowed_WhenRequestIsAnyOtherMethod()
       {
          await SendAndAssertGETRequest("/deleteonly", HttpStatusCode.MethodNotAllowed);
-         await SendAndAssertPOSTRequest("/deleteonly", null, HttpStatusCode.MethodNotAllowed);
+         await SendAndAssertPOSTRequest("/deleteonly", null, HttpStatusCode.MethodNotAllowed, null);
          await SendAndAssertPUTRequest("/deleteonly", null, HttpStatusCode.MethodNotAllowed);
          await SendAndAssertPATCHRequest("/deleteonly", null, HttpStatusCode.MethodNotAllowed);
          await SendAndAssertHEADRequest("/deleteonly", HttpStatusCode.MethodNotAllowed);
@@ -209,7 +212,7 @@ namespace IntegrationTests
       public async Task PatchOnlyRouteReturnsMethodNotAllowed_WhenRequestIsAnyOtherMethod()
       {
          await SendAndAssertGETRequest("/patchonly", HttpStatusCode.MethodNotAllowed);
-         await SendAndAssertPOSTRequest("/patchonly", null, HttpStatusCode.MethodNotAllowed);
+         await SendAndAssertPOSTRequest("/patchonly", null, HttpStatusCode.MethodNotAllowed, null);
          await SendAndAssertPUTRequest("/patchonly", null, HttpStatusCode.MethodNotAllowed);
          await SendAndAssertDELETERequest("/patchonly", HttpStatusCode.MethodNotAllowed);
          await SendAndAssertHEADRequest("/patchonly", HttpStatusCode.MethodNotAllowed);
@@ -223,7 +226,7 @@ namespace IntegrationTests
       public async Task HeadOnlyRouteReturnsMethodNotAllowed_WhenRequestIsAnyOtherMethod()
       {
          await SendAndAssertGETRequest("/headonly", HttpStatusCode.MethodNotAllowed);
-         await SendAndAssertPOSTRequest("/headonly", null, HttpStatusCode.MethodNotAllowed);
+         await SendAndAssertPOSTRequest("/headonly", null, HttpStatusCode.MethodNotAllowed, null);
          await SendAndAssertPUTRequest("/headonly", null, HttpStatusCode.MethodNotAllowed);
          await SendAndAssertDELETERequest("/headonly", HttpStatusCode.MethodNotAllowed);
          await SendAndAssertPATCHRequest("/headonly", null, HttpStatusCode.MethodNotAllowed);
@@ -237,7 +240,7 @@ namespace IntegrationTests
       public async Task OptionsOnlyRouteReturnsMethodNotAllowed_WhenRequestIsAnyOtherMethod()
       {
          await SendAndAssertGETRequest("/optionsonly", HttpStatusCode.MethodNotAllowed);
-         await SendAndAssertPOSTRequest("/optionsonly", null, HttpStatusCode.MethodNotAllowed);
+         await SendAndAssertPOSTRequest("/optionsonly", null, HttpStatusCode.MethodNotAllowed, null);
          await SendAndAssertPUTRequest("/optionsonly", null, HttpStatusCode.MethodNotAllowed);
          await SendAndAssertDELETERequest("/optionsonly", HttpStatusCode.MethodNotAllowed);
          await SendAndAssertPATCHRequest("/optionsonly", null, HttpStatusCode.MethodNotAllowed);
@@ -259,7 +262,7 @@ namespace IntegrationTests
       [TestMethod]
       public async Task PostReturnsNotFound_WhenUriNotConfigured()
       {
-         await SendAndAssertPOSTRequest("/abcdef", null, HttpStatusCode.NotFound);
+         await SendAndAssertPOSTRequest("/abcdef", null, HttpStatusCode.NotFound, null);
       }
 
       /// <summary>
@@ -332,10 +335,24 @@ namespace IntegrationTests
          return response;
       }
 
-      private async Task<HttpResponseMessage> SendAndAssertPOSTRequest(string relativeUri, HttpContent content, HttpStatusCode expectedStatusCode)
+      private async Task<HttpResponseMessage> SendAndAssertPOSTRequest(string relativeUri, HttpContent content, HttpStatusCode expectedStatusCode, string expectedLocationUri)
       {
          var response = await _client.PostAsync(relativeUri, content);
          Assert.AreEqual(expectedStatusCode, response.StatusCode);
+
+         if (expectedLocationUri != null)
+         {
+            if (response.Headers.TryGetValues("Location", out var values))
+            {
+               string locationUri = values.FirstOrDefault();
+               Assert.AreEqual(expectedLocationUri, locationUri);
+            }
+            else
+            {
+               Assert.Fail("Location header not found");
+            }
+         }
+
          return response;
       }
 

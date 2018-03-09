@@ -13,6 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationTests", "tests\I
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{AA24B80A-A82B-48AB-86C6-349F711128B2}"
 	ProjectSection(SolutionItems) = preProject
+		docs\HOWTO nuget.txt = docs\HOWTO nuget.txt
 		docs\Readme.md = docs\Readme.md
 	EndProjectSection
 EndProject

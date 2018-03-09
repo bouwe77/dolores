@@ -34,5 +34,11 @@ namespace TestApp
       {
          return new Response(HttpStatusCode.Ok);
       }
+
+      public Response Post()
+      {
+         string locationUri = RouteHelper.GetRouteUriByRouteIdentifier("GET one item", "moio");
+         return new CreatedResponse(locationUri);
+      }
    }
 }

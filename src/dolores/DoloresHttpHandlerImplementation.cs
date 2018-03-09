@@ -11,17 +11,17 @@ namespace Dolores
 {
    internal class DoloresHttpHandlerImplementation
    {
-      private readonly Settings _settings;
+      private readonly DoloresSettings _settings;
       private readonly ILoggerFactory _loggerFactory;
       private readonly HttpMethodImplementationManager _implementationManager;
-      private readonly ILogger logger;
+      private readonly ILogger _logger;
 
-      public DoloresHttpHandlerImplementation(Settings settings, ILoggerFactory loggerFactory)
+      public DoloresHttpHandlerImplementation(DoloresSettings settings, ILoggerFactory loggerFactory)
       {
          _settings = settings;
          _loggerFactory = loggerFactory;
          _implementationManager = new HttpMethodImplementationManager(new RouteFinder(settings.Routes));
-         logger = _loggerFactory.CreateLogger<DoloresHttpHandlerImplementation>();
+         _logger = _loggerFactory.CreateLogger<DoloresHttpHandlerImplementation>();
       }
 
       public async Task HandleAsync(IHttpContextWrapper wrappedHttpContext)
@@ -33,7 +33,7 @@ namespace Dolores
          {
             request = RequestFactory.Create(wrappedHttpContext);
 
-            logger.LogDebug(request.ToString());
+            _logger.LogDebug(request.ToString());
 
             // Determine the response by handling the request and (if necessary) handle the exception.
             try
@@ -68,7 +68,7 @@ namespace Dolores
             }
             catch (Exception exception)
             {
-               logger.LogWarning($"Writing the response failed: {exception}");
+               _logger.LogWarning($"Writing the response failed: {exception}");
                throw;
             }
          }
@@ -94,7 +94,7 @@ namespace Dolores
 
       private Response HandleException(Exception exception)
       {
-         logger.LogWarning($"Handling the request failed: {exception}");
+         _logger.LogWarning($"Handling the request failed: {exception}");
 
          var exceptionResponseFactory = new ExceptionResponseFactory(exception, _settings.ErrorDetailsInResponsesEnum);
          var response = exceptionResponseFactory.CreateResponse();
@@ -111,7 +111,7 @@ namespace Dolores
          var methodImplementation = _implementationManager.GetImplementation(request);
 
          // Handle the Request with the found implementation.
-         var requestHandler = new RequestHandler(request, methodImplementation, _loggerFactory);
+         var requestHandler = new RequestHandler(request, methodImplementation, _loggerFactory, _settings);
          var response = await requestHandler.HandleAsync();
 
          return response;

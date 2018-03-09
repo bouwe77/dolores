@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Dolores.Configuration
 {
-   public class Settings
+   public class DoloresSettings
    {
       public string ErrorDetailsInResponses { get; set; }
 

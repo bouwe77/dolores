@@ -2,15 +2,17 @@
 using Dolores.Requests;
 using Dolores.Routing;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.Loader;
+using Dolores.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace Dolores
 {
    internal class DoloresHandlerFactory
    {
-      public static DoloresHandler CreateDoloresHandler(IHttpMethodImplementation methodImplementation, Request request, ILoggerFactory loggerFactory)
+      public static DoloresHandler CreateDoloresHandler(IHttpMethodImplementation methodImplementation, Request request, ILoggerFactory loggerFactory, DoloresSettings settings)
       {
          var assembly = LoadAssembly(methodImplementation.AssemblyName);
 
@@ -20,6 +22,8 @@ namespace Dolores
 
          doloresHandler.Request = request;
          doloresHandler.Logger = loggerFactory.CreateLogger(type);
+         doloresHandler.DoloresSettings = settings;
+         doloresHandler.RouteHelper = new RouteHelper(settings);
 
          return doloresHandler;
       }

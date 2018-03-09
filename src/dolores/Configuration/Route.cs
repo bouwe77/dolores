@@ -7,6 +7,7 @@ namespace Dolores.Configuration
    {
       public string Identifier { get; set; }
       public string UriTemplate { get; set; }
+      public string Description { get; set; }
 
       public HttpMethodImplementation Get { get; set; }
       public HttpMethodImplementation Post { get; set; }

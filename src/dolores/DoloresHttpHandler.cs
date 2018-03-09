@@ -2,25 +2,25 @@
 using System.Threading.Tasks;
 using Dolores.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace Dolores
 {
    public class DoloresHttpHandler
    {
+      private readonly ILogger _logger;
+      private readonly DoloresSettings _settings;
       private readonly ILoggerFactory _loggerFactory;
-      private readonly Settings _settings;
 
-      public DoloresHttpHandler(RequestDelegate next, IOptions<Settings> settings, ILoggerFactory loggerFactory)
+      public DoloresHttpHandler(RequestDelegate next, DoloresSettings settings, ILoggerFactory loggerFactory)
       {
          _loggerFactory = loggerFactory;
-         _settings = settings.Value;
+         _logger = loggerFactory.CreateLogger<DoloresHttpHandler>();
+         _settings = settings;
       }
 
       public async Task Invoke(HttpContext httpContext)
       {
-         var logger = _loggerFactory.CreateLogger<DoloresHttpHandler>();
-         logger.LogInformation($"=======> Hello World");
+         _logger.LogInformation($"=======> Hello World");
 
          var wrappedHttpContext = new HttpContextWrapper(httpContext);
          var implementation = new DoloresHttpHandlerImplementation(_settings, _loggerFactory);

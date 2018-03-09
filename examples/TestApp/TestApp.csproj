@@ -16,7 +16,7 @@
     <ProjectReference Include="..\..\src\dolores\dolores.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Content Update="settings.json">
+    <Content Update="doloresSettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

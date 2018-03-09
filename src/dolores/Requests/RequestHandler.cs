@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Dolores.Configuration;
 using Dolores.Exceptions;
 using Dolores.Responses;
 using Dolores.Routing;
@@ -15,19 +16,21 @@ namespace Dolores.Requests
       private readonly Request _request;
       private readonly IHttpMethodImplementation _httpMethodImplementation;
       private readonly ILoggerFactory _loggerFactory;
-      private ILogger<RequestHandler> _logger;
+      private readonly ILogger<RequestHandler> _logger;
+      private readonly DoloresSettings _settings;
 
-      public RequestHandler(Request request, IHttpMethodImplementation httpMethodImplementation, ILoggerFactory loggerFactory)
+      public RequestHandler(Request request, IHttpMethodImplementation httpMethodImplementation, ILoggerFactory loggerFactory, DoloresSettings settings)
       {
          _request = request;
          _httpMethodImplementation = httpMethodImplementation;
          _loggerFactory = loggerFactory;
          _logger = loggerFactory.CreateLogger<RequestHandler>();
+         _settings = settings;
       }
 
       public async Task<Response> HandleAsync()
       {
-         var doloresHandler = DoloresHandlerFactory.CreateDoloresHandler(_httpMethodImplementation, _request, _loggerFactory);
+         var doloresHandler = DoloresHandlerFactory.CreateDoloresHandler(_httpMethodImplementation, _request, _loggerFactory, _settings);
          var response = await GetResponseAsync(doloresHandler);
 
          _logger.LogDebug(response.ToString());

@@ -8,7 +8,7 @@ namespace Dolores.Routing
       {
          string uri = null;
 
-         if (route != null)
+         if (route != null && uriParams != null)
          {
             uri = route.UriTemplate;
 
