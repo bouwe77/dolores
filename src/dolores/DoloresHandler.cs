@@ -28,6 +28,6 @@ namespace Dolores
       /// <summary>
       /// Gets or sets the <see cref="RouteHelper"/>.
       /// </summary>
-      public RouteHelper RouteHelper { get; internal set; }
+      public IRouteHelper RouteHelper { get; internal set; }
    }
 }

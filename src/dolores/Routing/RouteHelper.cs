@@ -5,7 +5,7 @@ using Dolores.Configuration;
 
 namespace Dolores.Routing
 {
-   public class RouteHelper
+   public class RouteHelper : IRouteHelper
    {
       private readonly DoloresSettings _settings;
 
